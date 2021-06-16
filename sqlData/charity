@@ -1,0 +1,101 @@
+use charity;
+
+DROP TABLE IF EXISTS `members`;
+CREATE TABLE `members` (
+  `member_id` int NOT NULL,
+  `first_name` varchar(45) DEFAULT NULL,
+  `last_name` varchar(45) DEFAULT NULL,
+  `occupation` varchar(45) DEFAULT NULL,
+  `phone` varchar(45) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL,
+  `address` varchar(45) DEFAULT NULL,
+   `isMemberActive` int DEFAULT 1
+  PRIMARY KEY (`member_id`)
+);
+
+DROP TABLE IF EXISTS `candidate`;
+CREATE TABLE `candidate` (
+  `candidate_id` int NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `title` varchar(45),
+  `dob` date DEFAULT NULL,
+  `isCandidateActive` int DEFAULT 1
+  PRIMARY KEY (`candidate_id`)
+);
+
+DROP TABLE IF EXISTS `charity_type`;
+CREATE TABLE `charity_type` (
+  `charity_type_id` int NOT NULL,
+  `type` varchar(45) DEFAULT NULL,
+  `description` varchar(500),
+  PRIMARY KEY (`charity_type_id`)
+);
+
+DROP TABLE IF EXISTS `charity`;
+CREATE TABLE `charity` (
+  `charity_id` int NOT NULL,
+  `member_id` int DEFAULT NULL,
+  `candidate_id` int DEFAULT NULL,
+  `payment_id` int DEFAULT NULL,
+  `charity_type_id` int DEFAULT NULL,
+  PRIMARY KEY (`charity_id`),
+  KEY `charity_member_id_idx` (`member_id`),
+  KEY `charity_charity_type_id_idx` (`charity_type_id`),
+  KEY `charity_payemnt_id_idx` (`payment_id`),
+  KEY `charity_candidate_id_idx` (`candidate_id`),
+  CONSTRAINT `charity_candidate_id` FOREIGN KEY (`candidate_id`) REFERENCES `candidate` (`candidate_id`),
+  CONSTRAINT `charity_charity_type_id` FOREIGN KEY (`charity_type_id`) REFERENCES `charity_type` (`charity_type_id`),
+  CONSTRAINT `charity_member_id` FOREIGN KEY (`member_id`) REFERENCES `members` (`member_id`),
+  CONSTRAINT `charity_payemnt_id` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`payment_id`)
+);
+
+
+DROP TABLE IF EXISTS `payment`;
+CREATE TABLE `payment` (
+  `payment_id` int NOT NULL,
+  `donated_price` decimal(8,2) DEFAULT NULL,
+  `type` varchar(45),
+  `status` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`payment_id`)
+);
+
+
+INSERT INTO `payment` (`payment_id`, `donated_price`, `type`, `status`) VALUES
+(1, 50.00, 'credit_card', NULL);
+INSERT INTO `payment` (`payment_id`, `donated_price`, `type`, `status`) VALUES
+(2, 60.00, 'paypal', NULL);
+INSERT INTO `payment` (`payment_id`, `donated_price`, `type`, `status`) VALUES
+(3, 70.00, 'debit card', NULL);
+
+INSERT INTO `charity_type` (`charity_type_id`, `type`, `description`) VALUES
+(1, 'Birthday', 'Charity on behalf of person who has birthday');
+INSERT INTO `charity_type` (`charity_type_id`, `type`, `description`) VALUES
+(2, 'Food', 'Chairty to fight against hunger');
+INSERT INTO `charity_type` (`charity_type_id`, `type`, `description`) VALUES
+(3, 'Wedding', 'Charity on behalf of wedding couple');
+INSERT INTO `charity_type` (`charity_type_id`, `type`, `description`) VALUES
+(4, 'Education', 'To educate under privilaged kids'),
+(5, 'Health', ' To provide  health facilites for under privilaged');
+
+INSERT INTO `candidate` (`candidate_id`, `name`, `title`, `dob`, isCandidateActive) VALUES
+(1, 'Soorya', 'Mrs', '1991-05-20',1);
+INSERT INTO `candidate` (`candidate_id`, `name`, `title`, `dob`,isCandidateActive) VALUES
+(2, 'Achal', 'Mr', '1991-05-20',1);
+INSERT INTO `candidate` (`candidate_id`, `name`, `title`, `dob`,isCandidateActive) VALUES
+(3, 'Yashvi', 'Miss', '2011-05-12',1);
+
+INSERT INTO `members` (`member_id`, `first_name`, `last_name`, `occupation`, `phone`, `email`, `address`, `isMemberActive`) VALUES
+(1, 'Soorya', 'Soni', 'developer', '9884737312', 'sooriyasoni@gmail.com', 'ha14yw', 1);
+INSERT INTO `members` (`member_id`, `first_name`, `last_name`, `occupation`, `phone`, `email`, `address`, `isMemberActive`) VALUES
+(2, 'Achal', 'Soni', 'developer', '7405176793', 'achal.soni@gmail.com', 'ha14yw', 1);
+INSERT INTO `members` (`member_id`, `first_name`, `last_name`, `occupation`, `phone`, `email`, `address`, `isMemberActive`) VALUES
+(3, 'Hanuvant', 'Rajpurohit', 'accountant', '123455658', 'hanvant.rajpurohit@gmail.com', 'ha14ex', 1);
+INSERT INTO `members` (`member_id`, `first_name`, `last_name`, `occupation`, `phone`, `email`, `address`, `isMemberActive`) VALUES
+(4, 'Surjeet', 'Dhaka', 'developer', '12345', 'hanvant.rajpurohit@gmail.com', 'sa2wds', 1);
+
+INSERT INTO `charity` (`charity_id`, `member_id`, `candidate_id`, `payment_id`, `charity_type_id`) VALUES
+(1, 1, 1, 1, 1);
+INSERT INTO `charity` (`charity_id`, `member_id`, `candidate_id`, `payment_id`, `charity_type_id`) VALUES
+(2, 2, 1, 2, 1);
+INSERT INTO `charity` (`charity_id`, `member_id`, `candidate_id`, `payment_id`, `charity_type_id`) VALUES
+(3, 1, 2, 3, 1);

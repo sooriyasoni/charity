@@ -1,0 +1,33 @@
+@url = http://localhost:8080/api/candidate
+
+GET {{url}} HTTP/1.1
+
+###
+
+GET {{url}}/2 HTTP/1.1
+
+###
+
+PUT {{url}}/2 HTTP/1.1
+Content-Type: application/json
+
+{
+    "candidateId": 2,
+    "name": "Claudian",
+    "title": "Mr",
+    "dob": "1956-11-09"
+}
+
+###
+
+DELETE {{url}}/6 HTTP/1.1
+
+###
+Post {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Claudian",
+    "title": "Miss",
+    "dob": "1991-12-12"
+}
